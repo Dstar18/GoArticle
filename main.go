@@ -2,22 +2,20 @@ package main
 
 import (
 	"GoArticle/config"
-	"net/http"
+	"GoArticle/routes"
 
 	"github.com/labstack/echo/v4"
 )
 
 func main() {
-	// connect DB & migrate
-	config.InitDB()
-	config.InitMigrate()
+	// initialize env, DB & migrate
+	config.LoadEnv()
+	db := config.ConnectDB()
 
 	// initialize echo
 	e := echo.New()
 
-	e.GET("/hello", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
+	routes.SetupRoutes(e, db)
 
 	e.Logger.Fatal(e.Start(":3000"))
 }
