@@ -8,8 +8,9 @@ import (
 )
 
 func main() {
-	// connect DB
+	// connect DB & migrate
 	config.InitDB()
+	config.InitMigrate()
 
 	// initialize echo
 	e := echo.New()
