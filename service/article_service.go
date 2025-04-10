@@ -30,6 +30,10 @@ func (s *ArticleService) GetIdArticle(id uint) (models.Posts, error) {
 	return article, err
 }
 
+func (s *ArticleService) UpdateArticle(data *models.Posts) error {
+	return s.DB.Save(data).Error
+}
+
 func (s *ArticleService) DeleteArticle(id uint) error {
 	return s.DB.Delete(&models.Posts{}, id).Error
 }

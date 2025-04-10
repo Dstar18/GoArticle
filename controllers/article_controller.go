@@ -159,6 +159,73 @@ func (h *ArticleController) ArticleGetID(c echo.Context) error {
 	})
 }
 
+func (h *ArticleController) ArticleUpdate(c echo.Context) error {
+	idParam := c.Param("id")
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"code":    http.StatusBadRequest,
+			"message": "Invalid id",
+		})
+	}
+
+	// check data by ID
+	resultArticle, errCheck := h.articleService.GetIdArticle(uint(id))
+	if errCheck != nil {
+		return c.JSON(http.StatusNotFound, map[string]interface{}{
+			"code":    http.StatusNotFound,
+			"message": "Data not found",
+		})
+	}
+
+	var article ArticleValidate
+
+	// Check request body
+	if err := c.Bind(&article); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"code":    http.StatusBadRequest,
+			"message": "Invalid request body",
+		})
+	}
+
+	// Validation struct
+	validate := validator.New()
+	if err := validate.Struct(article); err != nil {
+		errors := make(map[string]string)
+		for _, err := range err.(validator.ValidationErrors) {
+			errors[err.Field()] = "This field is" + " " + err.Tag() + " " + err.Param()
+		}
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"code":    http.StatusBadRequest,
+			"message": errors,
+		})
+	}
+
+	// update to service
+	param := models.Posts{
+		ID:           uint(id),
+		Title:        article.Title,
+		Content:      article.Content,
+		Category:     article.Category,
+		Status:       article.Status,
+		Created_date: resultArticle.Created_date,
+		Updated_date: time.Now(),
+	}
+	if err := h.articleService.UpdateArticle(&param); err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"code":    http.StatusInternalServerError,
+			"message": err.Error(),
+		})
+	}
+
+	// return success
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"code":    http.StatusOK,
+		"message": "Update successfully",
+		"data":    nil,
+	})
+}
+
 func (h *ArticleController) ArticleDelete(c echo.Context) error {
 	idParam := c.Param("id")
 	id, err := strconv.Atoi(idParam)

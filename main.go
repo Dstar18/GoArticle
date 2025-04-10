@@ -24,6 +24,7 @@ func main() {
 	api.POST("/article", articleController.ArticlesStore)
 	api.GET("/article/:limit/:offset", articleController.ArticleGets)
 	api.GET("/article/:id", articleController.ArticleGetID)
+	api.POST("/article/:id", articleController.ArticleUpdate)
 	api.DELETE("/article/:id", articleController.ArticleDelete)
 
 	e.Logger.Fatal(e.Start(":3000"))
