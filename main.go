@@ -22,6 +22,7 @@ func main() {
 	e := echo.New()
 	api := e.Group("/api")
 	api.POST("/article", articleController.ArticlesStore)
+	api.GET("/article/:limit/:offset", articleController.ArticleGets)
 
 	e.Logger.Fatal(e.Start(":3000"))
 }

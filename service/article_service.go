@@ -17,3 +17,9 @@ func NewArticleService(db *gorm.DB) *ArticleService {
 func (s *ArticleService) CreateArticle(data *models.Posts) error {
 	return s.DB.Create(data).Error
 }
+
+func (s *ArticleService) GetsArticle(limit, offset int) ([]models.Posts, error) {
+	var articles []models.Posts
+	result := s.DB.Limit(limit).Offset(offset).Find(&articles)
+	return articles, result.Error
+}

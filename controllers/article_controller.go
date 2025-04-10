@@ -4,6 +4,7 @@ import (
 	"GoArticle/models"
 	"GoArticle/service"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/go-playground/validator/v10"
@@ -71,5 +72,52 @@ func (h *ArticleController) ArticlesStore(c echo.Context) error {
 		"code":    http.StatusOK,
 		"message": "Created successfully",
 		"data":    nil,
+	})
+}
+
+func (h *ArticleController) ArticleGets(c echo.Context) error {
+	limitParam := c.Param("limit")
+	offsetParam := c.Param("offset")
+
+	limit, err := strconv.Atoi(limitParam)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"code":    http.StatusBadRequest,
+			"message": "Invalid limit",
+		})
+	}
+
+	offset, err := strconv.Atoi(offsetParam)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"code":    http.StatusBadRequest,
+			"message": "Invalid offset",
+		})
+	}
+
+	articles, err := h.articleService.GetsArticle(limit, offset)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"code":    http.StatusInternalServerError,
+			"message": err.Error(),
+		})
+	}
+
+	// manual mapping
+	var articleResponses []ArticleValidate
+	for _, article := range articles {
+		articleResponses = append(articleResponses, ArticleValidate{
+			Title:    article.Title,
+			Content:  article.Content,
+			Category: article.Category,
+			Status:   article.Status,
+		})
+	}
+
+	// return success
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"code":    http.StatusOK,
+		"message": "Article successfully",
+		"data":    articleResponses,
 	})
 }
