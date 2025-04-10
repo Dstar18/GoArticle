@@ -121,3 +121,29 @@ func (h *ArticleController) ArticleGets(c echo.Context) error {
 		"data":    articleResponses,
 	})
 }
+
+func (h *ArticleController) ArticleGetID(c echo.Context) error {
+	idParam := c.Param("id")
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"code":    http.StatusBadRequest,
+			"message": "Invalid id",
+		})
+	}
+
+	article, err := h.articleService.GetIdArticle(uint(id))
+	if err != nil {
+		return c.JSON(http.StatusNotFound, map[string]interface{}{
+			"code":    http.StatusNotFound,
+			"message": "Data not found",
+		})
+	}
+
+	// return success
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"code":    http.StatusOK,
+		"message": "Article successfully",
+		"data":    article,
+	})
+}

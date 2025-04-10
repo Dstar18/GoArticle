@@ -23,3 +23,9 @@ func (s *ArticleService) GetsArticle(limit, offset int) ([]models.Posts, error) 
 	result := s.DB.Limit(limit).Offset(offset).Find(&articles)
 	return articles, result.Error
 }
+
+func (s *ArticleService) GetIdArticle(id uint) (models.Posts, error) {
+	var article models.Posts
+	err := s.DB.First(&article, id).Error
+	return article, err
+}
