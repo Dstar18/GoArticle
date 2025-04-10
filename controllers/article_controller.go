@@ -140,10 +140,19 @@ func (h *ArticleController) ArticleGetID(c echo.Context) error {
 		})
 	}
 
+	// manual mapping
+	var articleResponses ArticleValidate
+	articleResponses = ArticleValidate{
+		Title:    article.Title,
+		Content:  article.Content,
+		Category: article.Category,
+		Status:   article.Status,
+	}
+
 	// return success
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"code":    http.StatusOK,
 		"message": "Article successfully",
-		"data":    article,
+		"data":    articleResponses,
 	})
 }
