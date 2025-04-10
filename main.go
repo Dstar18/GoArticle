@@ -2,20 +2,26 @@ package main
 
 import (
 	"GoArticle/config"
-	"GoArticle/routes"
+	"GoArticle/controllers"
+	"GoArticle/service"
 
 	"github.com/labstack/echo/v4"
 )
 
 func main() {
-	// initialize env, DB & migrate
+	// initialize env, DB
 	config.LoadEnv()
-	db := config.ConnectDB()
+	dbConn := config.ConnectDB()
 
-	// initialize echo
+	// Init Service
+	articleService := service.NewArticleService(dbConn)
+	// Init Controller
+	articleController := controllers.NewArticleController(articleService)
+
+	// Routes
 	e := echo.New()
-
-	routes.SetupRoutes(e, db)
+	api := e.Group("/api")
+	api.POST("/article", articleController.ArticlesStore)
 
 	e.Logger.Fatal(e.Start(":3000"))
 }
