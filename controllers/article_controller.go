@@ -95,6 +95,7 @@ func (h *ArticleController) ArticleGets(c echo.Context) error {
 		})
 	}
 
+	// gets to service
 	articles, err := h.articleService.GetsArticle(limit, offset)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
@@ -132,6 +133,7 @@ func (h *ArticleController) ArticleGetID(c echo.Context) error {
 		})
 	}
 
+	//  get to service
 	article, err := h.articleService.GetIdArticle(uint(id))
 	if err != nil {
 		return c.JSON(http.StatusNotFound, map[string]interface{}{
@@ -154,5 +156,40 @@ func (h *ArticleController) ArticleGetID(c echo.Context) error {
 		"code":    http.StatusOK,
 		"message": "Article successfully",
 		"data":    articleResponses,
+	})
+}
+
+func (h *ArticleController) ArticleDelete(c echo.Context) error {
+	idParam := c.Param("id")
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"code":    http.StatusBadRequest,
+			"message": "Invalid id",
+		})
+	}
+
+	// check data by ID
+	_, errCheck := h.articleService.GetIdArticle(uint(id))
+	if errCheck != nil {
+		return c.JSON(http.StatusNotFound, map[string]interface{}{
+			"code":    http.StatusNotFound,
+			"message": "Data not found",
+		})
+	}
+
+	// delete to service
+	if err := h.articleService.DeleteArticle(uint(id)); err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"code":    http.StatusInternalServerError,
+			"message": err.Error(),
+		})
+	}
+
+	// return success
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"code":    http.StatusOK,
+		"message": "Delete successfully",
+		"data":    nil,
 	})
 }

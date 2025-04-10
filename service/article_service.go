@@ -29,3 +29,7 @@ func (s *ArticleService) GetIdArticle(id uint) (models.Posts, error) {
 	err := s.DB.First(&article, id).Error
 	return article, err
 }
+
+func (s *ArticleService) DeleteArticle(id uint) error {
+	return s.DB.Delete(&models.Posts{}, id).Error
+}
