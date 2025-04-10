@@ -13,11 +13,11 @@ Seluruh aplikasi dikemas ke dalam Docker untuk memastikan lingkungan yang konsis
 - **Migration**: Migrasi tabel data otomatis dari sistem ke database mysql.
 
 ## Endpoint API 
-- [GET] /api/article/{limit}/{offset}
-- [GET] /api/article/{id}
-- [POST] /api/article
-- [POST] /api/article/{id}
-- [DELETE] /api/article/{id}
+- **[GET]** /api/article/{limit}/{offset}
+- **[GET]** /api/article/{id}
+- **[POST]** /api/article
+- **[POST]** /api/article/{id}
+- **[DELETE]** /api/article/{id}
 
 ## Prasyarat  
 
