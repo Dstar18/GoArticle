@@ -13,6 +13,7 @@ Seluruh aplikasi dikemas ke dalam Docker untuk memastikan lingkungan yang konsis
 - **Migration**: Migrasi tabel data otomatis dari sistem ke database mysql.
 
 ## Endpoint API 
+URL for published documentation : https://documenter.getpostman.com/view/23897308/2sB2cX9h2P
 - **[GET]** /api/article/{limit}/{offset}
 - **[GET]** /api/article/{id}
 - **[POST]** /api/article
