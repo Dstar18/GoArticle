@@ -1,6 +1,10 @@
 # Technical Test Sharing Vision | Golang Post Article
 
-Aplikasi sederhana CRUD Article, dengan Backend menggunakan framework echo dan modular service-layer structure sedangkan Frontend menggunakan ... dikemas didalam Docker.
+Aplikasi sederhana untuk CRUD (Create, Read, Update, Delete) artikel ini dibangun dengan arsitektur modular menggunakan framework Echo untuk backend. Backend ini dirancang dengan struktur service-layer untuk memisahkan logika bisnis dari akses data.
+
+Untuk frontend, aplikasi ini menggunakan Vue.js, memberikan antarmuka pengguna yang interaktif dan responsif.
+
+Seluruh aplikasi dikemas ke dalam Docker untuk memastikan lingkungan yang konsisten dan kemudahan dalam pengelolaan serta penyebaran aplikasi.
 
 ## Fitur Backend 
 
@@ -9,7 +13,11 @@ Aplikasi sederhana CRUD Article, dengan Backend menggunakan framework echo dan m
 - **Migration**: Migrasi tabel data otomatis dari sistem ke database mysql.
 
 ## Endpoint API 
-
+- [GET] /api/article/{limit}/{offset}
+- [GET] /api/article/{id}
+- [POST] /api/article
+- [POST] /api/article/{id}
+- [DELETE] /api/article/{id}
 
 ## Prasyarat  
 
