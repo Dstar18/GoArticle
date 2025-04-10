@@ -2,8 +2,6 @@
 
 Aplikasi sederhana untuk CRUD (Create, Read, Update, Delete) artikel ini dibangun dengan arsitektur modular menggunakan framework Echo untuk backend. Backend ini dirancang dengan struktur service-layer untuk memisahkan logika bisnis dari akses data.
 
-Untuk frontend, aplikasi ini menggunakan Vue.js, memberikan antarmuka pengguna yang interaktif dan responsif.
-
 Seluruh aplikasi dikemas ke dalam Docker untuk memastikan lingkungan yang konsisten dan kemudahan dalam pengelolaan serta penyebaran aplikasi.
 
 ## Fitur Backend 
@@ -11,6 +9,12 @@ Seluruh aplikasi dikemas ke dalam Docker untuk memastikan lingkungan yang konsis
 - **Validation**: validasi data yang diinput pengguna, agar sesuai dengan ketentuan yang berlaku.  
 - **Error Handler**: Penanganan kesalahan yang efektif untuk setiap permintaan.  
 - **Migration**: Migrasi tabel data otomatis dari sistem ke database mysql.
+
+## CORS (Yes)
+Domain dan Port yang terdaftar:
+- http://localhost
+- http://localhost:8080
+- http://localhost:8888
 
 ## Endpoint API 
 URL for published documentation : https://documenter.getpostman.com/view/23897308/2sB2cX9h2P

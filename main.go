@@ -6,6 +6,7 @@ import (
 	"GoArticle/service"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func main() {
@@ -20,6 +21,17 @@ func main() {
 
 	// Routes
 	e := echo.New()
+
+	// Middleware CORS
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{
+			"http://localhost",
+			"http://localhost:8080",
+			"http://localhost:8888",
+		},
+		AllowMethods: []string{echo.GET, echo.POST, echo.PUT, echo.DELETE},
+	}))
+
 	api := e.Group("/api")
 	api.POST("/article", articleController.ArticlesStore)
 	api.GET("/article/:limit/:offset", articleController.ArticleGets)
