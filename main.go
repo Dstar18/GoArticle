@@ -38,6 +38,7 @@ func main() {
 	api.GET("/article/:id", articleController.ArticleGetID)
 	api.POST("/article/:id", articleController.ArticleUpdate)
 	api.DELETE("/article/:id", articleController.ArticleDelete)
+	api.GET("/article/status/:status", articleController.GetArticleStatus)
 
 	e.Logger.Fatal(e.Start(":3000"))
 }

@@ -260,3 +260,40 @@ func (h *ArticleController) ArticleDelete(c echo.Context) error {
 		"data":    nil,
 	})
 }
+
+type StructArticleByStatus struct {
+	ID       uint   `json:"id"`
+	Title    string `json:"title"`
+	Category string `json:"category"`
+	Status   string `json:"status"`
+}
+
+func (h *ArticleController) GetArticleStatus(c echo.Context) error {
+	status := c.Param("status")
+
+	articles, err := h.articleService.GetArticlesByStatus(status)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"code":    http.StatusInternalServerError,
+			"message": err.Error(),
+		})
+	}
+
+	// manual mapping
+	var articleResponses []StructArticleByStatus
+	for _, article := range articles {
+		articleResponses = append(articleResponses, StructArticleByStatus{
+			ID:       article.ID,
+			Title:    article.Title,
+			Category: article.Category,
+			Status:   article.Status,
+		})
+	}
+
+	// return success
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"code":    http.StatusOK,
+		"message": "Article Status " + status + " successfully",
+		"data":    articleResponses,
+	})
+}

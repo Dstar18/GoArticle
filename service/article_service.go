@@ -37,3 +37,13 @@ func (s *ArticleService) UpdateArticle(data *models.Posts) error {
 func (s *ArticleService) DeleteArticle(id uint) error {
 	return s.DB.Delete(&models.Posts{}, id).Error
 }
+
+func (s *ArticleService) GetArticlesByStatus(status string) ([]models.Posts, error) {
+	var article []models.Posts
+	result := s.DB.Where("status = ?", status).Find(&article)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return article, nil
+}
