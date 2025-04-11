@@ -265,6 +265,7 @@ type StructArticleByStatus struct {
 	ID       uint   `json:"id"`
 	Title    string `json:"title"`
 	Category string `json:"category"`
+	Content  string `json:"content"`
 	Status   string `json:"status"`
 }
 
@@ -286,6 +287,7 @@ func (h *ArticleController) GetArticleStatus(c echo.Context) error {
 			ID:       article.ID,
 			Title:    article.Title,
 			Category: article.Category,
+			Content:  article.Content,
 			Status:   article.Status,
 		})
 	}
